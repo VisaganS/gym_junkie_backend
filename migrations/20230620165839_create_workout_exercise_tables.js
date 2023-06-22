@@ -8,6 +8,7 @@ exports.up = function (knex) {
         table.increments("id").primary();
         table.string("name").notNullable();
         table.string("type").notNullable();
+        table.string("image");
         table.integer("likes").notNullable();
         table.integer("comments").notNullable();
         table.timestamp("created_at").defaultTo(knex.fn.now());
