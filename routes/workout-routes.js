@@ -10,7 +10,7 @@ router.route("/:id")
 .put(workoutController.edit)
 .delete(workoutController.remove)
 
-router.route("/:id/inventories")
+router.route("/:id/exercises")
 .get(workoutController.getOneWorkoutExercises)
 
 module.exports = router;

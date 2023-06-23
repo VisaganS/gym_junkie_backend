@@ -14,12 +14,7 @@ const exercisesRoutes = require('./routes/exercise-routes');
 
 // all users routes
 app.use('/workouts', workoutsRoutes);
-app.use('/exercises', exercisesRoutes)
-
-// const inventoryRoutes = require('./routes/inventory-routes');
-// app.use(express.json());
-
-// app.use('/inventory', inventoryRoutes);
+app.use('/exercises', exercisesRoutes);
 
 app.listen(PORT, () => {
   console.log(`running at http://localhost:${PORT}`);
