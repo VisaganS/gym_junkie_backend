@@ -71,9 +71,9 @@ const add = (req, res) => {
 };
 
 const edit = (req, res) => {
-  if (!req.body.workout_id) {
+  if (!req.body.id) {
     return res.status(400).json({
-      message: `No information found for workout_id, please enter this information and try again `,
+      message: `No information found for id, please enter this information and try again `,
     });
   } else if (!req.body.name) {
     return res.status(400).json({
@@ -83,15 +83,15 @@ const edit = (req, res) => {
     return res.status(400).json({
       message: `No information found for muscle, please enter this information and try again `,
     });
-  } else if (!req.body.category) {
+  } else if (!req.body.equipment) {
     return res.status(400).json({
       message: `No information found for equipment, please enter this information and try again `,
     });
-  } else if (!req.body.status) {
+  } else if (!req.body.difficulty) {
     return res.status(400).json({
       message: `No information found for difficulty, please enter this information and try again `,
     });
-  } else if (!req.body.quantity) {
+  } else if (!req.body.workout_id) {
     return res.status(400).json({
       message: `No information found for instructions, please enter this information and try again `,
     });
