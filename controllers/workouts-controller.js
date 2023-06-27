@@ -1,8 +1,16 @@
 const knex = require("knex")(require("../knexfile"));
+const fs = require('fs');
 const validator = require('validator');
+const path = require('path');
 
-const checkNumber = (quantity) => {
-    return validator.isNumeric(quantity);
+const deleteImage = (imagePath) => {
+    fs.unlink(imagePath, (err) => {
+      if (err) {
+        console.error('Error deleting image file:', err);
+      } else {
+        console.log('Image file deleted');
+      }
+    });
 };
 
 const getAll = (_req, res) => {
@@ -64,55 +72,74 @@ const getOneWorkoutExercises = (req, res) => {
 };
 
 const add = (req, res) => {
-  if (
-    !req.body.name ||
-    !req.body.type ||
-    !req.body.likes ||
-    !req.body.comments
-  ) {
-    return res
-      .status(400)
-      .send("Please provide all info for the new workout in the request");
-  }
-//   if (!validator.isAlphanumeric(req.body.name)) {
-//     return res.status(400).send("Invalid workout name.");
-//   }
-//   if (!validator.isAlphanumeric(req.body.type)) {
-//     return res.status(400).send("Invalid workout type.");
-//   }
-//   if (!validator.isAlpha(req.body.likes)) {
-//     return res.status(400).send("Invalid likes, has to be a number.");
-//   }
-//   if (!validator.isAlpha(req.body.comments)) {
-//     return res.status(400).send("Invalid comments, has to be a number.");
-//   }
-  knex("workout")
-    .insert(req.body)
-    .then((result) => {
-      return knex("workout").where({ id: result[0] });
-    })
-    .then((createdWorkout) => {
-      res.status(201).json(createdWorkout);
-    })
-    .catch(() => {
-      res.status(500).json({ message: "Unable to create new workout" });
-    });
+    if (
+        !req.body.name ||
+        !req.body.type ||
+        !req.body.likes ||
+        !req.body.comments ||
+        !req.file
+    ) {
+       
+        return res
+          .status(400)
+          .send("Please provide all info for the new workout, including the image in the request");
+    }
+
+    console.log(req.file)
+
+    const workout = {
+      name: req.body.name,
+      type: req.body.type,
+      image: 'http://localhost:8080/images/' + req.file.filename,
+      likes: req.body.likes,
+      comments: req.body.comments
+    };
+
+    knex("workout")
+      .insert(workout)
+      .then(() => {
+        res.status(201).json(workout);
+      })
+      .catch(() => {
+        res.status(500).json({ message: "Unable to create new workout" });
+      });
 };
 
 const remove = (req, res) => {
-  knex("workout")
+    knex("workout")
     .where({ id: req.params.id })
-    .del()
-    .then((result) => {
-      if (result === 0) {
-        return res.status(404).json({
-          message: `Workout with ID: ${req.params.id} to be deleted not found`,
-        });
+    .then((workoutsFound) => {
+      if (workoutsFound.length === 0) {
+        return res
+          .status(404)
+          .json({ message: `Workout with ID: ${req.params.id} not found` });
       }
-      res.sendStatus(204);
+
+      const workoutData = workoutsFound[0];
+      let imageAddress = workoutData.image.replace(new RegExp('http://localhost:8080/images/', 'g'), '');
+      const imagePath = path.join(__dirname, '..', 'public/images', imageAddress)
+      deleteImage(imagePath);
+
+      knex("workout")
+      .where({ id: req.params.id })
+      .del()
+      .then((result) => {
+        if (result === 0) {
+          return res.status(404).json({
+            message: `Workout with ID: ${req.params.id} to be deleted not found`,
+          });
+        }
+        res.sendStatus(204);
+      })
+      .catch(() => {
+        res.status(500).json({ message: "Unable to delete workout" });
+      });
+      
     })
     .catch(() => {
-      res.status(500).json({ message: "Unable to delete workout" });
+      res.status(500).json({
+        message: `Unable to retrieve data for workout with ID: ${req.params.id}`,
+      });
     });
 };
 
@@ -127,19 +154,6 @@ const edit = (req, res) => {
       message: `Unable to update ${req.body.name} workout please ensure all fields have been filled out`,
     });
   }
-
-//   if (!validator.isAlphanumeric(req.body.name)) {
-//     return res.status(400).send("Invalid workout name.");
-//   }
-//   if (!validator.isAlpha(req.body.type)) {
-//     return res.status(400).send("Invalid workout type.");
-//   }
-//   if (!validator.isAlpha(req.body.likes)) {
-//     return res.status(400).send("Invalid likes, has to be a number.");
-//   }
-//   if (!validator.isAlpha(req.body.comments)) {
-//     return res.status(400).send("Invalid comments, has to be a number.");
-//   }
 
   knex("workout")
     .where({ id: req.params.id })
