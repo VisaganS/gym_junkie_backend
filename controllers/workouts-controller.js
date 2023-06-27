@@ -1,6 +1,5 @@
 const knex = require("knex")(require("../knexfile"));
 const fs = require('fs');
-const validator = require('validator');
 const path = require('path');
 
 const deleteImage = (imagePath) => {
