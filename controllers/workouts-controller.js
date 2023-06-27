@@ -154,9 +154,49 @@ const edit = (req, res) => {
     });
   }
 
+  let workout = {};
+
+  if(req.file){
+
+    knex("workout")
+        .where({ id: req.params.id })
+        .then((workoutsFound) => {
+        if (workoutsFound.length === 0) {
+        return res
+          .status(404)
+          .json({ message: `Workout with ID: ${req.params.id} not found` });
+        }
+
+      const workoutData = workoutsFound[0];
+      let imageAddress = workoutData.image.replace(new RegExp('http://localhost:8080/images/', 'g'), '');
+      const imagePath = path.join(__dirname, '..', 'public/images', imageAddress);
+      console.log(imagePath);
+      deleteImage(imagePath);
+    })
+    .catch(() => {
+      res.status(500).json({
+        message: `Unable to retrieve data for workout with ID: ${req.params.id}`,
+      });
+    });
+
+         workout = {
+            name: req.body.name,
+            type: req.body.type,
+            image: 'http://localhost:8080/images/' + req.file.filename,
+            likes: req.body.likes,
+            comments: req.body.comments
+        };
+    } else {
+        workout = {
+            name: req.body.name,
+            type: req.body.type,
+            likes: req.body.likes,
+            comments: req.body.comments
+        }
+    }
   knex("workout")
     .where({ id: req.params.id })
-    .update(req.body)
+    .update(workout)
     .then(() => {
       return knex("workout").where({ id: req.params.id });
     })

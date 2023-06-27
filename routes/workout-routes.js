@@ -19,7 +19,7 @@ router.route('/')
 
 router.route("/:id")
 .get(workoutController.findOne)
-.put(workoutController.edit)
+.put(upload.single('image'), workoutController.edit)
 .delete(workoutController.remove)
 
 router.route("/:id/exercises")
