@@ -81,15 +81,15 @@ const remove = (req, res) => {
     knex("likedworkouts")
     .where({ workout_id: workoutId, user_id: userId })
     .del()
-    .then((res) =>{
-        if (res === 0) {
+    .then((result) =>{
+        if (result === 0) {
             return res.status(404).json({
               message: `Likes with workout_id: ${workoutId} and user_id: ${userId} not found`,
             });
         }
-        res.sendStatus(204);
+        res.status(204).json({ message:  `Likes with workout_id: ${workoutId} and user_id: ${userId} has been successfully deleted` });
     })
-    .catch(() => {
+    .catch((err) => {
         res.status(500).json({ message:  `Unable to delete data for likes with workout_id: ${workoutId} and user_id: ${userId}` });
     });
 } 
