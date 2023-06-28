@@ -23,8 +23,7 @@ const findOne = (req, res) => {
 
 const getAllWorkouts = (req, res) => {
     knex("likedworkouts")
-    .leftJoin("users", "likedworkouts.user_id", "users.id")
-    .leftJoin("workout", "likedworkouts.workout_id", "workout.id")
+    .join("workout", "likedworkouts.workout_id", "workout.id")
     .select(
       "workout.id",
       "workout.name",
@@ -33,22 +32,20 @@ const getAllWorkouts = (req, res) => {
       "workout.likes",
       "workout.comments"
     )
-    .where({ "workout.id": req.params.id })
+    .where("likedworkouts.user_id", req.params.id )
     .then((response) => {
-      if (response.length === 0) {
-        return res.status(404).json({
-          message: `The workout with id ${req.params.id} or cannot be found`,
-        });
-      } else if (!response[0].id) {
-        return res.status(400).json({message:`The workout with the id ${req.params.id} exists but is empty`} );
-      }
-      return res.status(200).json(response);
-    })
-    .catch((error) => {
-      return res
-        .status(500)
-        .json({ message: "An error in your request has occured." });
-    });
+        if (response.length === 0) {
+          return res.status(404).json({
+            message: `No liked workouts found for user with ID ${req.params.id}`,
+          });
+        }
+        return res.status(200).json(response);
+      })
+      .catch((error) => {
+        return res
+          .status(500)
+          .json({ message: "An error in your request has occurred." });
+      });
   };
 
 const add = (req,res) => {
