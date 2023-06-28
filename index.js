@@ -11,10 +11,12 @@ app.use('/images', express.static('./public/images'));
 const userRoutes = require("./routes/user-routes");
 const workoutsRoutes = require('./routes/workout-routes');
 const exercisesRoutes = require('./routes/exercise-routes');
+const likesRoutes = require('./routes/likedworkouts-routes');
 
 app.use("/user", userRoutes);
 app.use('/workouts', workoutsRoutes);
 app.use('/exercises', exercisesRoutes);
+app.use('/likes', likesRoutes);
 
 app.listen(PORT, () => {
   console.log(`running at http://localhost:${PORT}`);

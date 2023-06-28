@@ -4,6 +4,5 @@
  */
 
 exports.seed = function (knex) {
-    return knex('users').del();
-  };
-  
+    return knex('likedworkouts').del();
+};
