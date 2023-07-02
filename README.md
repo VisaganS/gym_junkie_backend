@@ -44,7 +44,7 @@ Front End: https://github.com/VisaganS/capstone_frontend
 
 Back End: https://github.com/VisaganS/capstone_backend
 
-<strong>Connect With Me</strong>
+# Connect With Me
 
 Github: https://github.com/VisaganS
 LinkedIn: https://www.linkedin.com/in/visagan-shan/
