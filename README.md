@@ -38,7 +38,7 @@ $ node index.js
 
 # Links
 
-<strong>Project Links</strong>
+# Project Links
 
 Front End: https://github.com/VisaganS/capstone_frontend
 
