@@ -38,13 +38,13 @@ $ node index.js
 
 # Links
 
-# Project Links
+<strong> Project Links </strong>
 
 Front End: https://github.com/VisaganS/capstone_frontend
 
 Back End: https://github.com/VisaganS/capstone_backend
 
-# Connect With Me
+<strong> Connect With Me!</strong>
 
 Github: https://github.com/VisaganS
 LinkedIn: https://www.linkedin.com/in/visagan-shan/
