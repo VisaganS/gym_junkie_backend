@@ -89,7 +89,7 @@ const add = (req, res) => {
     const workout = {
       name: req.body.name,
       type: req.body.type,
-      image: 'http://localhost:8080/images/' + req.file.filename,
+      image: 'https://gym-junkie-backend-visagans.onrender.com/images/' + req.file.filename,
       likes: req.body.likes,
       comments: req.body.comments
     };
@@ -115,7 +115,7 @@ const remove = (req, res) => {
       }
 
       const workoutData = workoutsFound[0];
-      let imageAddress = workoutData.image.replace(new RegExp('http://localhost:8080/images/', 'g'), '');
+      let imageAddress = workoutData.image.replace(new RegExp('https://gym-junkie-backend-visagans.onrender.com/images/', 'g'), '');
       const imagePath = path.join(__dirname, '..', 'public/images', imageAddress)
       deleteImage(imagePath);
 
@@ -168,7 +168,7 @@ const edit = (req, res) => {
         }
 
       const workoutData = workoutsFound[0];
-      let imageAddress = workoutData.image.replace(new RegExp('http://localhost:8080/images/', 'g'), '');
+      let imageAddress = workoutData.image.replace(new RegExp('https://gym-junkie-backend-visagans.onrender.com/images/', 'g'), '');
       const imagePath = path.join(__dirname, '..', 'public/images', imageAddress);
       console.log(imagePath);
       deleteImage(imagePath);
@@ -182,7 +182,7 @@ const edit = (req, res) => {
          workout = {
             name: req.body.name,
             type: req.body.type,
-            image: 'http://localhost:8080/images/' + req.file.filename,
+            image: 'https://gym-junkie-backend-visagans.onrender.com/images/' + req.file.filename,
             likes: req.body.likes,
             comments: req.body.comments
         };
