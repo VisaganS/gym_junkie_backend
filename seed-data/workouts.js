@@ -3,7 +3,7 @@ module.exports = [
       id: 1,
       name: "Introduction To Calisthenics",
       type: "Body-weight/Free-Weights",
-      image: "https://localhost:3306/images/image1.jpg",
+      image: "https://gym-junkie-backend-visagans.onrender.com/images/image1.jpg",
       likes: 2312,
       comments: 219,
     },
